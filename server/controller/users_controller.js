@@ -2,7 +2,7 @@ const express = require("express");
 const User = require("../model/user_model");
 const users_function = require("../general JS/users_function");
 const jwt = require("jsonwebtoken");
-
+const bcrypt = require('bcrypt')
 // Routers_Get
 const index = (req, res) => {
   res.render("index");
@@ -18,20 +18,6 @@ const content_get = (req, res) => {
 };
 const verifyEmail_view = (req, res) => {
   res.render("./users/verifyedEmail");
-};
-
-// Routers_POST
-const signup_Post = async (req, res) => {
-  const { username, email, password } = req.body;
-  try {
-    const user = await User.create({ username, email, password });
-    const token = users_function.createToken(user._id);
-    users_function.sendVerfiyEmail(user.email, token);
-    res.status(200).json({ user });
-  } catch (err) {
-    const error = users_function.handelErrors(err);
-    res.status(400).json({ error });
-  }
 };
 
 // verify user email
@@ -54,6 +40,35 @@ const verifyEmail = async (req, res) => {
   }
 };
 
+
+// Routers_POST
+const signup_Post = async (req, res) => {
+  const { username, email, password } = req.body;
+  try {
+    const user = await User.create({ username, email, password });
+    const token = users_function.createToken(user._id);
+    users_function.sendVerfiyEmail(user.email, token);
+    res.status(200).json({ user });
+  } catch (err) {
+    const error = users_function.handelErrors(err);
+    res.status(400).json({ error });
+  }
+};
+
+const signin_Post = async (req,res) => {
+  const {email, password} = req.body;
+  try{ 
+    const user = await users_function.login_user(email , password);
+    const token = await users_function.createToken(user.id);
+    res.cookie('loggedin' , token, {maxAge: 3 * 24 * 60 * 60 * 1000});
+    res.status(200).json({user});
+  } catch(err) {
+    const error = users_function.handelErrors(err);
+    res.status(400).json({error});
+  }
+}
+
+
 module.exports = {
   index,
   signin_get,
@@ -62,4 +77,5 @@ module.exports = {
   verifyEmail_view,
   verifyEmail,
   signup_Post,
+  signin_Post
 };

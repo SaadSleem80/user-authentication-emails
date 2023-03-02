@@ -17,4 +17,5 @@ router.get("/verfiy/:token", users_controller.verifyEmail);
 // Routers_POST
 router.post("/signup", users_controller.signup_Post);
 
+router.post('/signin' , users_controller.signin_Post)
 module.exports = router;

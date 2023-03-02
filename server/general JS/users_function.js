@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const User = require("../model/user_model");
+const bcrypt = require('bcrypt');
 // global functions
 const handelErrors = (err) => {
   const errors = { email: "", password: "", username: "" };
@@ -11,6 +13,15 @@ const handelErrors = (err) => {
     Object.values(err.errors).forEach(({ properties }) => {
       errors[properties.path] = properties.message;
     });
+  }
+  if(err.message === 'this email is not correct') {
+    errors.email = "this email is not correct";
+  }
+  if(err.message === 'this user is not valid') {
+    errors.valid =  'this user is not valid';
+  }
+  if(err.message === 'the password is not correct') {
+    errors.password =  'the password is not correct';
   }
   return errors;
 };
@@ -53,8 +64,27 @@ const sendVerfiyEmail = async (email,token) => {
   }
 };
 
+const login_user = async(email , password) => {
+  const user = await User.findOne({email});
+  if(user) {
+    if(user.validation == true) {
+      const auth = await bcrypt.compare(password , user.password);
+      if(auth) {
+        return user;
+      }else{
+         throw Error('the password is not correct');
+      }
+    }else{
+      throw Error('this user is not valid')
+    }
+  }else{
+    throw Error('this email is not correct');
+  }
+}
+
 module.exports = {
   handelErrors,
   createToken,
   sendVerfiyEmail,
+  login_user
 };
