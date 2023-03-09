@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const User = require("../model/user_model");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 // global functions
 const handelErrors = (err) => {
-  const errors = { email: "", password: "", username: "" };
+  const errors = { email: "", password: "", username: "", valditaion: "" };
   if (err.code === 11000) {
     errors.email = "this email is already exist";
     return errors;
@@ -14,15 +14,25 @@ const handelErrors = (err) => {
       errors[properties.path] = properties.message;
     });
   }
-  if(err.message === 'this email is not correct') {
+  if (err.message === "this email is not correct") {
     errors.email = "this email is not correct";
   }
-  if(err.message === 'this user is not valid') {
-    errors.valid =  'this user is not valid';
+  if (err.message === "please verify your account") {
+    errors.valditaion = "please verify your account";
   }
-  if(err.message === 'the password is not correct') {
-    errors.password =  'the password is not correct';
+  if (err.message === "the password is not correct") {
+    errors.password = "the password is not correct";
   }
+  if (err.message === "the password is not the same") {
+    errors.password = "the password is not the same";
+  }
+  if (err.message === "this email is invalid") {
+    errors.email = "this email is invalid";
+  }
+  if (err.message === "please type password") {
+    errors.password = "please type password";
+  }
+
   return errors;
 };
 
@@ -33,17 +43,17 @@ const createToken = (id) => {
 };
 
 // send verfiy email
-const sendVerfiyEmail = async (email,token) => {
+const sendVerfiyEmail = async (email, token) => {
   try {
     const transporte = nodemailer.createTransport({
-      service: "hotmail",
+      service: "gmail",
       auth: {
-        user: "nodetest2023@outlook.com",
-        pass: "nodetest123",
+        user: "saadsleem86@gmail.com",
+        pass: "txwkimzeldtjseao",
       },
     });
     const mailOptions = {
-      from: "nodetest2023@outlook.com",
+      from: "saadsleem86@gmail.com",
       to: email,
       subject: "Verify Your Email",
       html: `
@@ -64,27 +74,59 @@ const sendVerfiyEmail = async (email,token) => {
   }
 };
 
-const login_user = async(email , password) => {
-  const user = await User.findOne({email});
-  if(user) {
-    if(user.validation == true) {
-      const auth = await bcrypt.compare(password , user.password);
-      if(auth) {
+const login_user = async (email, password) => {
+  const user = await User.findOne({ email });
+  if (user) {
+    if (user.validation == true) {
+      const auth = await bcrypt.compare(password, user.password);
+      if (auth) {
         return user;
-      }else{
-         throw Error('the password is not correct');
+      } else {
+        throw Error("the password is not correct");
       }
-    }else{
-      throw Error('this user is not valid')
+    } else {
+      throw Error("please verify your account");
     }
-  }else{
-    throw Error('this email is not correct');
+  } else {
+    throw Error("this email is not correct");
   }
-}
+};
+
+const resetPasswordEmail = async (email, token) => {
+  try {
+    const transporte = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "saadsleem86@gmail.com",
+        pass: "txwkimzeldtjseao",
+      },
+    });
+    const mailOptions = {
+      from: "saadsleem86@gmail.com",
+      to: email,
+      subject: "Reset Your Password",
+      html: `
+        <h1>Hi there welcome to my user auth</h1>
+        <h2>please click on the link below to reset your password</h2>
+        <a href='http://localhost:5000/reset/password/${token}'>Click Me !!</a>
+        `,
+    };
+    transporte.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json({ success: true });
+      }
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 module.exports = {
   handelErrors,
   createToken,
   sendVerfiyEmail,
-  login_user
+  login_user,
+  resetPasswordEmail,
 };

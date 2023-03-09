@@ -21,6 +21,10 @@ app.use(cookieParser());
 
 app.use(users_router);
 
+app.get("*", function (req, res) {
+  res.status(404).render("404");
+});
+
 // run server
 const PORT = process.env.PORT || 3000;
 

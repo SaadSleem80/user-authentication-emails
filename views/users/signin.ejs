@@ -1,65 +1,111 @@
 <!-- header -->
 <%- include('../component/header.ejs') %>
-    <!-- header -->
-    <div class="container h-full main-height">
-        <div class="flex justify-center items-center mb-6 h-full w-full">
-            <form class="h-fit xl:w-1/3 lg:w-1/2 md:w-1/2 sm:w-1/2 p-10 border-solid border-2 shadow-xl rounded">
-                <h1 class="text-5xl mb-6 text-blue-500">Sign in</h1>
-                <div class="my-4">
-                    <input type="email" name="email" placeholder="@Email"
-                        class="text-slate-500 w-full h-10 border-solid border-2 focus:border-blue-500 outline-none px-2 rounded focus:ease-in focus:duration-200">
-                    <div class="email_err hidden p-1 mt-2 bg-red-200 mx-auto text-red-500 rounded text-sm"></div>
-                </div>
-                <div class="my-4">
-                    <input type="password" name="password" placeholder="Password"
-                        class="text-slate-500 w-full border-solid border-2 focus:border-blue-500 outline-none h-10 px-2 rounded focus:ease-in focus:duration-200">
-                    <div class="password_err hidden p-1 mt-2 bg-red-200 mx-auto text-red-500 rounded text-sm"></div>
-                </div>
-                <div class="mt-4">
-                    <input type="submit" value="Sign in"
-                        class="w-full h-10 px-2 rounded text-white bg-blue-500 cursor-pointer hover:bg-white hover:text-blue-500 ease-in duration-200 hover:border-solid hover:border-2 hover:border-blue-500">
-                </div>
-            </form>
+  <!-- header -->
+  <div class="container h-full main-height">
+    <div class="flex justify-center items-center mb-6 h-full w-full">
+      <form class="h-fit xl:w-1/3 lg:w-1/2 md:w-1/2 sm:w-1/2 p-10 border-solid border-2 shadow-xl rounded">
+        <h1 class="text-5xl mb-6 text-blue-500">Sign in</h1>
+        <div class="my-4">
+          <input type="email" name="email" placeholder="@Email"
+            class="text-slate-500 w-full h-10 border-solid border-2 focus:border-blue-500 outline-none px-2 rounded focus:ease-in focus:duration-200" />
+          <div class="email_err hidden p-1 mt-2 bg-red-200 mx-auto text-red-500 rounded text-sm"></div>
         </div>
+        <div class="my-4">
+          <input type="password" name="password" placeholder="Password"
+            class="text-slate-500 w-full border-solid border-2 focus:border-blue-500 outline-none h-10 px-2 rounded focus:ease-in focus:duration-200" />
+          <div class="password_err hidden p-1 mt-2 bg-red-200 mx-auto text-red-500 rounded text-sm"></div>
+        </div>
+        <div class="mt-4">
+          <input type="submit" value="Sign in"
+            class="w-full h-10 px-2 rounded text-white bg-blue-500 cursor-pointer hover:bg-white hover:text-blue-500 ease-in duration-200 hover:border-solid hover:border-2 hover:border-blue-500" />
+        </div>
+        <div class="mt-4 flex justify-between items-center">
+          <div>
+            <a href="/reset" class="py-1 my-2 w-full rounded  hover:text-blue-500">Reset password</a>
+          </div>
+          <div>
+            <button class="verify_btn ml-auto hidden py-1 my-2 px-2 text-white w-full rounded bg-blue-500 ">
+              Verify</button>
+          </div>
+        </div>
+      </form>
     </div>
-    <script>
-        const form = document.querySelector('form');
-        const email_err = document.querySelector(".email_err");
-        const password_err = document.querySelector(".password_err");
-        form.addEventListener('submit', async (e) => {
-            email_err.textContent = "";
-            password_err.textContent = "";
-            email_err.classList.add("hidden");
-            password_err.classList.add("hidden");
-            e.preventDefault();
-            let email = form.email.value;
-            let password = form.password.value;
-            try {
-                let res = await fetch('/signin', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                })
-                const data = await res.json()
-                if (data.user) {
-                    location.assign('/');
-                }
-                if (data.error) {
-                    if (data.error.email) {
-                        email_err.textContent = data.error.email;
-                        email_err.classList.remove("hidden");
-                    }
-                    if (data.error.password) {
-                        password_err.textContent = data.error.password;
-                        password_err.classList.remove("hidden");
-                    }
-                }
-            } catch (err) {
-                console.log(err)
-            }
-
+  </div>
+  <script>
+    const form = document.querySelector("form");
+    const email_err = document.querySelector(".email_err");
+    const password_err = document.querySelector(".password_err");
+    const verify_btn = document.querySelector('.verify_btn');
+    form.addEventListener("submit", async (e) => {
+      email_err.textContent = "";
+      password_err.textContent = "";
+      email_err.classList.add("hidden");
+      password_err.classList.add("hidden");
+      e.preventDefault();
+      let email = form.email.value;
+      let password = form.password.value;
+      try {
+        let res = await fetch("/signin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+        const data = await res.json();
+        if (data.user) {
+          location.assign("/");
+        }
+        console.log(data);
+        if (data.error) {
+          if (data.error.email) {
+            email_err.textContent = data.error.email;
+            email_err.classList.remove("hidden");
+          }
+          if (data.error.valditaion) {
+            email_err.textContent = data.error.valditaion;
+            email_err.classList.remove("hidden");
+            verify_btn.classList.remove('hidden');
+          }
+          if (data.error.password) {
+            password_err.textContent = data.error.password;
+            password_err.classList.remove("hidden");
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    });
+    // verify
+    verify_btn.addEventListener('click', async (e) => {
+      e.preventDefault()
+      let email = form.email.value;
+      let password = form.password.value;
+      email_err.textContent = "";
+      password_err.textContent = "";
+      email_err.classList.add("hidden");
+      password_err.classList.add("hidden");
+      try {
+        let res = await fetch('/verfiy', {
+          method: 'POST',
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
         })
-    </script>
+        let data = await res.json();
+        console.log(data);
+        if (data.error) {
+          if (data.error.email) {
+            email_err.textContent = data.error.email;
+            email_err.classList.remove("hidden");
+          }
+          if (data.error.password) {
+            password_err.textContent = data.error.password;
+            password_err.classList.remove("hidden");
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  </script>
+  <!-- header -->
+  <%- include('../component/footer.ejs') %>
     <!-- header -->
-    <%- include('../component/footer.ejs') %>
-        <!-- header -->

@@ -18,15 +18,21 @@
                     </a>
                 </div>
                 <ul class="list-none flex justify-center items-center my-auto gap-1 text-lg ">
+                    <% if(user){ %>
                     <li>
-                        <a href="/" class="hover:bg-white py-1 px-3 rounded hover:ease-in hover:duration-200 hover:text-blue-600">Home</a>
+                        <span><%= user.email %></span>
                     </li>
                     <li>
-                        <a href="/signin" class="hover:bg-white py-1 px-3 rounded hover:ease-in hover:duration-200 hover:text-blue-600">Sigh in</a>
+                        <a href="/logout" class="hover:bg-white py-1 px-3 rounded hover:ease-in hover:duration-200 hover:text-blue-600">Logout</a>
                     </li>
-                    <li>
-                        <a href="/signup" class="hover:bg-white py-1 px-3 rounded hover:ease-in hover:duration-200 hover:text-blue-600">Sigh up</a>
-                    </li>
+                    <% }else{ %>
+                        <li>
+                            <a href="/signin" class="hover:bg-white py-1 px-3 rounded hover:ease-in hover:duration-200 hover:text-blue-600">Sigh in</a>
+                        </li>
+                        <li>
+                            <a href="/signup" class="hover:bg-white py-1 px-3 rounded hover:ease-in hover:duration-200 hover:text-blue-600">Sigh up</a>
+                        </li>
+                    <% } %>
                 </ul>
             </div>
         </div>
