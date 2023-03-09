@@ -1,10 +1,10 @@
 {
-    "name": "test-node",
+    "name": "AUTH-EMAIL",
     "version": "1.0.0",
     "main": "server.js",
-    "author": "",
+    "author": "SaadSleem",
     "license": "ISC",
-    "description": "",
+    "description": "User authentication with send mails",
     "dependencies": {
         "bcrypt": "^5.1.0",
         "cookie-parser": "^1.4.6",

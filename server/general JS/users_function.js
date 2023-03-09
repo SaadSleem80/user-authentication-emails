@@ -48,18 +48,18 @@ const sendVerfiyEmail = async (email, token) => {
     const transporte = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "saadsleem86@gmail.com",
+        user: `${process.env.EMAIL}`,
         pass: "txwkimzeldtjseao",
       },
     });
     const mailOptions = {
-      from: "saadsleem86@gmail.com",
+      from: `${process.env.EMAIL}`,
       to: email,
       subject: "Verify Your Email",
       html: `
         <h1>Hi there welcome to my user auth</h1>
         <h2>please click on the link below to verify your email</h2>
-        <a href='http://localhost:5000/verfiy/${token}'>Click Me !!</a>
+        <a href='${process.env.CYCLIC_URL}/verfiy/${token}'>Click Me !!</a>
         `,
     };
     transporte.sendMail(mailOptions, (err, info) => {
@@ -97,18 +97,18 @@ const resetPasswordEmail = async (email, token) => {
     const transporte = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "saadsleem86@gmail.com",
+        user: `${process.env.EMAIL}`,
         pass: "txwkimzeldtjseao",
       },
     });
     const mailOptions = {
-      from: "saadsleem86@gmail.com",
+      from: `${process.env.EMAIL}`,
       to: email,
       subject: "Reset Your Password",
       html: `
         <h1>Hi there welcome to my user auth</h1>
         <h2>please click on the link below to reset your password</h2>
-        <a href='http://localhost:5000/reset/password/${token}'>Click Me !!</a>
+        <a href='${process.env.CYCLIC_URL}/reset/password/${token}'>Click Me !!</a>
         `,
     };
     transporte.sendMail(mailOptions, (err, info) => {
