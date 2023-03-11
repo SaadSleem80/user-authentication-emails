@@ -66,11 +66,13 @@ const sendVerfiyEmail = async (email, token) => {
     };
     console.log(`the http url${process.env.CYCLIC_URL}`);
     console.log(`the email${process.env.EMAIL}`);
+    console.log(`the email${email}`);
     transporte.sendMail(mailOptions, (err, info) => {
       if (err) {
         console.log(err);
       } else {
         res.json({ success: true });
+        console.log('success');
       }
     });
   } catch (err) {
