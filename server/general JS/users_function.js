@@ -69,6 +69,7 @@ const sendVerfiyEmail = async (email, token) => {
     console.log(`the email${email}`);
     transporte.sendMail(mailOptions, (err, info) => {
       if (err) {
+        console.log('err');
         console.log(err);
       } else {
         res.json({ success: true });
