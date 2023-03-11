@@ -68,6 +68,7 @@ const sendVerfiyEmail = async (email, token) => {
       if (err) {
         console.log(err);
       } else {
+        console.log('email sent')
         res.json({ success: true });
       }
     });
