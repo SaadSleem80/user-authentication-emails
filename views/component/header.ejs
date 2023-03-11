@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="/style/custome.css">
     <title>Mailer</title>
 </head>
+
 <body>
     <nav class="py-2 bg-blue-600 text-white">
         <div class="container">
@@ -17,22 +19,29 @@
                         <h1 class="text-4xl font-bold">Mailer</h1>
                     </a>
                 </div>
-                <ul class="list-none flex justify-center items-center my-auto gap-1 text-lg ">
+                <ul class="list-none flex justify-center items-center my-auto gap-1 md:text-lg sm:text-sm ">
                     <% if(user){ %>
-                    <li>
-                        <span><%= user.email %></span>
-                    </li>
-                    <li>
-                        <a href="/logout" class="hover:bg-white py-1 px-3 rounded hover:ease-in hover:duration-200 hover:text-blue-600">Logout</a>
-                    </li>
-                    <% }else{ %>
                         <li>
-                            <a href="/signin" class="hover:bg-white py-1 px-3 rounded hover:ease-in hover:duration-200 hover:text-blue-600">Sigh in</a>
+                            <span>
+                                <%= user.email %>
+                            </span>
                         </li>
                         <li>
-                            <a href="/signup" class="hover:bg-white py-1 px-3 rounded hover:ease-in hover:duration-200 hover:text-blue-600">Sigh up</a>
+                            <a href="/logout"
+                                class="hover:bg-white py-1 px-3 rounded hover:ease-in hover:duration-200 hover:text-blue-600">Logout</a>
                         </li>
-                    <% } %>
+                        <% }else{ %>
+                            <li>
+                                <a href="/signin"
+                                    class="hover:bg-white py-1 px-3 rounded hover:ease-in hover:duration-200 hover:text-blue-600">Sigh
+                                    in</a>
+                            </li>
+                            <li>
+                                <a href="/signup"
+                                    class="hover:bg-white py-1 px-3 rounded hover:ease-in hover:duration-200 hover:text-blue-600">Sigh
+                                    up</a>
+                            </li>
+                            <% } %>
                 </ul>
             </div>
         </div>

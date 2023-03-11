@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const User = require("../model/user_model");
 const bcrypt = require("bcrypt");
+require("dotenv").config();
+
 // global functions
 const handelErrors = (err) => {
   const errors = { email: "", password: "", username: "", valditaion: "" };
