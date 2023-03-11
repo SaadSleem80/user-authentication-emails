@@ -70,7 +70,7 @@ const signup_Post = async (req, res) => {
   try {
     const user = await User.create({ username, email, password });
     const token = users_function.createToken(user._id);
-    users_function.sendVerfiyEmail(user.email, token);
+    await users_function.sendVerfiyEmail(user.email, token);
     res.status(200).json({ user });
   } catch (err) {
     const error = users_function.handelErrors(err);
@@ -134,7 +134,7 @@ const verfiyEmail_Post = async (req, res) => {
       const auth = await bcrypt.compare(password, user.password);
       if (auth) {
         const token = users_function.createToken(user._id);
-        users_function.sendVerfiyEmail(user.email, token);
+        await users_function.sendVerfiyEmail(user.email, token);
         res.status(200).json({ user });
       } else {
         throw Error("the password is not correct");
