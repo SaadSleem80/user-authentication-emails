@@ -50,7 +50,7 @@ const sendVerfiyEmail = async (email, token) => {
     const transporte = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: `saadsleem86@gmail.com`,
+        user: `${process.env.EMAIL}`,
         pass: "txwkimzeldtjseao",
       },
     });
@@ -64,6 +64,8 @@ const sendVerfiyEmail = async (email, token) => {
         <a href='${process.env.CYCLIC_URL}/verfiy/${token}'>Click Me !!</a>
         `,
     };
+    console.log(`the http url${process.env.CYCLIC_URL}`);
+    console.log(`the email${process.env.EMAIL}`);
     transporte.sendMail(mailOptions, (err, info) => {
       if (err) {
         console.log(err);
@@ -99,7 +101,7 @@ const resetPasswordEmail = async (email, token) => {
     const transporte = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: `saadsleem86@gmail.com`,
+        user: `${process.env.EMAIL}`,
         pass: "txwkimzeldtjseao",
       },
     });
