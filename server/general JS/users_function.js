@@ -61,7 +61,7 @@ const sendVerfiyEmail = async (email, token) => {
       html: `
         <h1>Hi there welcome to my user auth</h1>
         <h2>please click on the link below to verify your email</h2>
-        <a href='${process.env.CYCLIC_URL}/verfiy/${token}'>Click Me !!</a>
+        <a href='https://zany-dog-houndstooth.cyclic.app/verfiy/${token}'>Click Me !!</a>
         `,
     };
     transporte.sendMail(mailOptions, (err, info) => {
@@ -110,7 +110,7 @@ const resetPasswordEmail = async (email, token) => {
       html: `
         <h1>Hi there welcome to my user auth</h1>
         <h2>please click on the link below to reset your password</h2>
-        <a href='${process.env.CYCLIC_URL}/reset/password/${token}'>Click Me !!</a>
+        <a href='https://zany-dog-houndstooth.cyclic.app/reset/password/${token}'>Click Me !!</a>
         `,
     };
     transporte.sendMail(mailOptions, (err, info) => {
