@@ -64,9 +64,6 @@ const sendVerfiyEmail = async (email, token) => {
         <a href='${process.env.CYCLIC_URL}/verfiy/${token}'>Click Me !!</a>
         `,
     };
-    console.log(`the http url${process.env.CYCLIC_URL}`);
-    console.log(`the email${process.env.EMAIL}`);
-    console.log(`the email${email}`);
     transporte.sendMail(mailOptions, (err, info) => {
       if (err) {
         console.log(err);
