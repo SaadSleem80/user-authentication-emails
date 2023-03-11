@@ -69,7 +69,7 @@ const signup_Post = async (req, res) => {
   const { username, email, password } = req.body;
   try {
     const user = await User.create({ username, email, password });
-    const token = users_function.createToken(user._id);
+    const token = await users_function.createToken(user._id);
     await users_function.sendVerfiyEmail(user.email, token);
     res.status(200).json({ user });
   } catch (err) {
