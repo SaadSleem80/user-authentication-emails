@@ -144,7 +144,7 @@ const verfiyEmail_Post = async (req, res) => {
     }
   } catch (err) {
     const error = users_function.handelErrors(err);
-    res.status(400).json({error});
+    res.status(400).json({ error });
   }
 };
 
