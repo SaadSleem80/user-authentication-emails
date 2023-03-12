@@ -48,6 +48,7 @@ const createToken = (id) => {
 const sendVerfiyEmail = async (email, token) => {
   try {
     const transporte = nodemailer.createTransport({
+      host: `${process.env.CYCLIC_URL}`,
       service: "gmail",
       auth: {
         user: `${process.env.EMAIL}`,
@@ -68,7 +69,7 @@ const sendVerfiyEmail = async (email, token) => {
       if (err) {
         console.log(err);
       } else {
-        console.log('email sent')
+        console.log("email sent");
         res.json({ success: true });
       }
     });
@@ -98,6 +99,7 @@ const login_user = async (email, password) => {
 const resetPasswordEmail = async (email, token) => {
   try {
     const transporte = nodemailer.createTransport({
+      host: `${process.env.CYCLIC_URL}`,
       service: "gmail",
       auth: {
         user: `${process.env.EMAIL}`,
