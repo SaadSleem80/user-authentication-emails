@@ -55,7 +55,7 @@
         });
         const data = await res.json();
         if (data.user) {
-          location.assign("/");
+          window.location.replace("/");
         }
         if (data.error) {
           if (data.error.email) {
