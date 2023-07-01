@@ -48,7 +48,7 @@ const createToken = (id) => {
 const sendVerfiyEmail = async (email, token) => {
   try {
     const transporte = nodemailer.createTransport({
-      host: `${process.env.CYCLIC_URL}`,
+      host: `${process.env.HOST}`,
       service: "gmail",
       auth: {
         user: `${process.env.EMAIL}`,
@@ -62,7 +62,7 @@ const sendVerfiyEmail = async (email, token) => {
       html: `
         <h1>Hi there welcome to my user auth</h1>
         <h2>please click on the link below to verify your email</h2>
-        <a href='${process.env.CYCLIC_URL}/verfiy/${token}'>Click Me !!</a>
+        <a href='${process.env.HOST}/verfiy/${token}'>Click Me !!</a>
         `,
     };
     transporte.sendMail(mailOptions, (err, info) => {
@@ -99,7 +99,7 @@ const login_user = async (email, password) => {
 const resetPasswordEmail = async (email, token) => {
   try {
     const transporte = nodemailer.createTransport({
-      host: `${process.env.CYCLIC_URL}`,
+      host: `${process.env.HOST}`,
       service: "gmail",
       auth: {
         user: `${process.env.EMAIL}`,
@@ -113,7 +113,7 @@ const resetPasswordEmail = async (email, token) => {
       html: `
         <h1>Hi there welcome to my user auth</h1>
         <h2>please click on the link below to reset your password</h2>
-        <a href='${process.env.CYCLIC_URL}/reset/password/${token}'>Click Me !!</a>
+        <a href='${process.env.HOST}/reset/password/${token}'>Click Me !!</a>
         `,
     };
     transporte.sendMail(mailOptions, (err, info) => {
